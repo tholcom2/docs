@@ -3,12 +3,12 @@
 ## 1 - Introduction
  What this tutorial will cover
  
-## 2 - Useful resources
+## 2 - Useful Resources
 
-* Lock2
-* Parameter
+* [Lock2](https://github.com/CityOfZion/docs/blob/develop/en-us/sc/tutorial/Lock2.md)
+* [Parameter](https://github.com/CityOfZion/docs/blob/develop/en-us/sc/tutorial/Parameter.md)
    
-## 3 - SC code
+## 3 - SC Code
  
 ## 4 - Deploying a Smart Contract with Parameters
  
