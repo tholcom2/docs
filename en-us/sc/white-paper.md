@@ -2,13 +2,13 @@
 
 ## 1. Preface
 
-Smart contracts refer to any computer program which can automatically execute the terms of its preprogrammed contract. The idea of smart contract was first proposed by the cryptographer Nick Szabo in 1994, making it as old as the Internet itself. Due to the lack of a reliable execution environment, smart contracts have not been widely used.
+A smart contract refers to any computer program that can automatically execute the terms of its preprogrammed contract. The concept of the smart contract was first proposed by the cryptographer Nick Szabo in 1994, making it as old as the Internet itself. Due to the lack of a reliable execution environment, smart contracts have not been widely used.
 
-In 2008, a man under the name of Satoshi Nakamoto released Bitcoin, and outlined the foundational concepts of a blockchain. Within the Bitcoin blockchain, Nakamoto uses a set of scripting languages to help users gain more flexbility in controlling their personal accounts and the transfer process, which eventually became the embryonic form of a chain-based, smart contract system.
+In 2008, a man under the name of Satoshi Nakamoto released Bitcoin and outlined the foundational concepts of a blockchain. Within the Bitcoin blockchain, Nakamoto uses a set of scripting languages to help users gain more flexbility in controlling their personal accounts and the transfer process, which eventually became the embryonic form of a chain-based, smart contract system.
 
-In 2014, a teenager called Vitalik Buterin released Ethereum, which provides a chain-based, Turing-complete, smart contract system that can be used to create a variety of decentralized blockchain applications.
+In 2014, a teenager by the name of Vitalik Buterin released Ethereum, which provides a chain-based, Turing-complete, smart contract system that can be used to create a variety of decentralized blockchain applications.
 
-NEO blockchain is a digital asset and application platform, which provides a new smart contract system, NeoContract. At the core of the Neo platform, the network provides multiples functions such as digital asset capabilities, NeoAsset, and digital identity, NeoID, allowing users to easily engage in digital businesses, and are no longer limited to just the issuance of native tokens on the blockchain.
+NEO blockchain is a digital asset and application platform, which provides a new smart contract system called NeoContract. At the core of the Neo platform, the network provides multiples functions fo digital asset capabilities, NeoAsset, and digital identity, NeoID, allowing users to easily engage in digital businesses, and are no longer limited to just the issuance of native tokens on the blockchain.
 
 This article will introduce featues of Neo Contract and explore non-technical details. Please refer to the technical documentation for technical details: Docs.antshares.org.
 
@@ -16,17 +16,22 @@ This article will introduce featues of Neo Contract and explore non-technical de
 
 ### 2.1 Certainty
 
-If a program is running on different computers, or at different times on the same computer, the behaviour of the program is deterministic if the same input is guaranteed to produce the same output, and vice versa.
+A program is deterministic when any given input is always guaranteed to produce the same output. Including when the program is run on different computers or at different times.
 
-Blockchain is a multi-party storage, and computational method, where the data within this distributed system is the result of reliable calculations, that cannot be tampered with. Smart contracts operates within the multi-node, distributed blockchain network. If a smart contract is non-deterministic, the results of different nodes may be inconsistent. As a result, consensus between the nodes cannnot be reached, and the network becomes stagnnant. Therefore, in the design of a smart contract system, there is a need to rule out any factors which may lead to non-deterministic behaviour.
+Blockchain is a multi-party storage, computational method where data is stored within a distributed system, held intact by the result of reliable calculations that cannot be tampered with. Smart contracts operate within this multi-node, distributed blockchain network. A smart contract system must be deterministic. 
+
+A smart contract system that is non-deterministic would produce different results at each of its nodes. In this case, consesus between nodes cannot be reached causing the network to become stagnant. Therefore, it is neccesary to rule out any factors which may lead to non-deterministic behavior to form a reliable smart contract system.
 
 #### 2.1.1 Time
 
-Obtaining system-time is a very common system function, that may be heavily applied in certain time-sensitive contract procedures. However, obtaining system-time is a non-deterministic system function, and it is difficult to obtain a unified, precise time in a distributed system, as the results of different nodes will be inconsistent. NeoContract provides a block-based system-call that treats the entire blockchain, as a timestamp server, and obtains the timestamp whenever a new block is generated. On average, NEO network generates a new block every 15 seconds, so the contract runs at approximately the same time as the latest block-time, plus-minus 15 seconds. 
+Obtaining system-time is a common system function that is essential in forming time-sensitive contract procedures. This presents a challenge since obtaining system-time is a non-deterministic system function. Thus, it is difficult to obtain a unified, precise timestamp in a distributed system. 
+
+NeoContract provides a solution by utilizing the entire blockchain as a timestamp server. NeoContract utilizes a block-based system-call that obtains a timestamp whenever a new block is generated. The NEO network generates a new block every 15 seconds, on average. A time-sensitive contract would activate at approximately the same time as the latest block-time, plus/minus 15 seconds.
+
 
 #### 2.1.2 Randomness
 
-Many smart contract programs, such as gambling contracts and small games, use random number functions. However, random number functions is a typical non-deterministic function, and each system-call will obtain different results. In a distributed system, there are many ways to solve this problem: Firstly, the same random seed can be used for all nodes, so that the return sequence of the entire random function is deterministic, but this method exposes the entire random result in advance, greatly reducing the the practical value of the random number. Another possible solution, is to let all nodes communicate in a collaborative way to generate random numbers. This can be achieved by using cryptographic techniques to produce a fair random number, but the disadvantage lies in the very poor performance, and need for additional communication overhead. A centralized random number provider can be used to generate random numbers which guarantees consistency and performance, but the drawback of this approach is obvious; Users will have to unconditionally trust the centralized number provider.
+Many smart contract programs use random number functions. However, random number functions are a typical example of a non-deterministic function, and each system-call will obtain different results. In a distributed system, there are many ways to solve this problem: Firstly, the same random seed can be used for all nodes, so that the return sequence of the entire random function is deterministic, but this method exposes the entire random result in advance, greatly reducing the the practical value of the random number. Another possible solution, is to let all nodes communicate in a collaborative way to generate random numbers. This can be achieved by using cryptographic techniques to produce a fair random number, but the disadvantage lies in the very poor performance, and need for additional communication overhead. A centralized random number provider can be used to generate random numbers which guarantees consistency and performance, but the drawback of this approach is obvious; Users will have to unconditionally trust the centralized number provider.
 
 There are two ways to generate a random number in NEO: 1) When each block is generated, the consensus node will reach a consensus on a random number, and fill it into the Nonce field of the new block. The contract program can easily obtain the random number of any bock, by referencing the Nonce field; 2) The contract program can use the hash value of the block as a random number generator, because the block hash value has certain inherent randomness. This method can be used to obtain a weak random number.
 
